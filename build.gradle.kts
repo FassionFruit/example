@@ -1,10 +1,16 @@
 plugins {
     kotlin("jvm") version "2.4.21"
-    id("io.github.fassionfruit") version "0.5.0"
+    id("com.gradleup.shadow") version "9.2.2"
+    id("io.github.fassionfruit") version "0.5.1"
 }
 
 group = "io.github.fassionfruit"
 version = "1.0-SNAPSHOT"
+
+
+tasks.jar {
+    manifest.attributes["Main-Class"] = "examples.MainKt"
+}
 
 repositories {
     mavenCentral()
@@ -18,7 +24,15 @@ dependencies {
 }
 
 kotlin {
-    jvmToolchain(26)
+    jvmToolchain(25)
+}
+
+tasks.build {
+    dependsOn("shadowJar")
+}
+
+tasks.shadowJar {
+    archiveClassifier.set("")
 }
 
 tasks.test {
